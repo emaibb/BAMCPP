@@ -25,7 +25,7 @@ public:
 		const Mesh2D& operator|=(const Polygon&) const;
 		const Mesh2D& operator-=(const Polygon&) const;
 		const Mesh2D& operator&=(const Polygon&) const;
-		std::vector<std::pair<bool, std::vector<UV>>> boolean_polygons() const;
+		std::vector<std::pair<bool, Polygon>> boolean_polygons() const;
 	};
 public:
 	BAM(int argc, char* argv[]);
