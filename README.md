@@ -60,26 +60,29 @@ private:
 
 int main(int argc, char* argv[]) {
     // Start julia agent, and caching BAM.jl package utility.
-	BAM bam(argc, argv);
+    BAM bam(argc, argv);
     // Start timing.
-	auto start = std::chrono::system_clock::now();
-	// A new 2D bounded adaptive mesh instance.
+    auto start = std::chrono::system_clock::now();
+    // A new 2D bounded adaptive mesh instance.
     auto mesh = bam.new_mesh2d();
     // Boolean operations (|= : boolean or, -+ : boolean sub)
-	mesh |= polygons_3DIC[0];
-	for (auto i = 1; i < polygons_3DIC.size(); ++i) {
-		mesh -= polygons_3DIC[i];
-	}
-    // Extract boolean operation and polygons, returns std::vector<std::pair<bool, BAM::Polygon>>, with bool value represents boolean operation signature (false : |=, true : -=), and element permutation preserves operation order.
-	auto ret = mesh.boolean_polygons();
+    mesh |= polygons_3DIC[0];
+    for (auto i = 1; i < polygons_3DIC.size(); ++i) {
+        mesh -= polygons_3DIC[i];
+    }
+    // Extract boolean operation and polygons, 
+    // returns std::vector<std::pair<bool, BAM::Polygon>>, 
+    // with bool value represents boolean operation signature (false : |=, true : -=), 
+    // and element permutation preserves operation order.
+    auto ret = mesh.boolean_polygons();
     // Show total cost seconds.
-	std::cout 
-		<< std::chrono::duration_cast<std::chrono::seconds>(
-			std::chrono::system_clock::now() - start
-		).count() 
-		<< std::endl
-	;
+    std::cout 
+        << std::chrono::duration_cast<std::chrono::seconds>(
+            std::chrono::system_clock::now() - start
+        ).count() 
+        << std::endl
+    ;
     // Count output elements.
-	std::cout << ret.size() << std::endl;
+    std::cout << ret.size() << std::endl;
 }
 ```
