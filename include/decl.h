@@ -1,9 +1,9 @@
 #ifdef _WIN32
-    #ifdef BAMCPP_EXPORTS
-        #define DECL_SHARE __declspec(dllexport)
+    #ifdef BAM_cpp_EXPORTS
+        #define BAM_CPP __declspec(dllexport)
     #else
-        #define DECL_SHARE __declspec(dllimport)
+        #define BAM_CPP __declspec(dllimport)
     #endif
 #else
-    #define DECL_SHARE
+    #define BAM_CPP
 #endif

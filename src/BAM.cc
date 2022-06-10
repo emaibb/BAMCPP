@@ -20,6 +20,20 @@ struct BAM::Private {
 	jl_function_t* boolean_polygons;
 	Private(int argc, char* argv[]) {
 		init_julia(argc, argv);
+		BAM = (jl_module_t*)jl_eval_string("BAM");
+		refs = jl_eval_string("refs = IdDict()");
+		setindex = jl_get_function(jl_base_module, "setindex!");
+		erase = jl_get_function(jl_base_module, "delete!");
+		Mesh2D = jl_get_function(BAM, "Mesh2D");
+		UV = (jl_datatype_t*)(jl_eval_string("BAM.UV"));
+		uv_vec_type = jl_apply_array_type((jl_value_t*)UV, 1);
+		insert = jl_get_function(BAM, "insert!");
+		or_polygon = jl_get_function(BAM, "or_polygon!");
+		sub_polygon = jl_get_function(BAM, "sub_polygon!");
+		and_polygon = jl_get_function(BAM, "and_polygon!");
+		boolean_polygons = jl_get_function(BAM, "boolean_polygons");
+		if (jl_exception_occurred())
+			printf("%s \n", jl_typeof_str(jl_exception_occurred()));
 	}
 	~Private() {
 		shutdown_julia(0);
@@ -28,22 +42,7 @@ struct BAM::Private {
 
 BAM::BAM(int argc, char* argv[])
 	: _p(new Private(argc, argv))
-{
-	_p->BAM = (jl_module_t*)jl_eval_string("BAM");
-	_p->refs = jl_eval_string("refs = IdDict()");
-	_p->setindex = jl_get_function(jl_base_module, "setindex!");
-	_p->erase = jl_get_function(jl_base_module, "delete!");
-	_p->Mesh2D = jl_get_function(_p->BAM, "Mesh2D");
-	_p->UV = (jl_datatype_t*)(jl_eval_string("BAM.UV"));
-	_p->uv_vec_type = jl_apply_array_type((jl_value_t*)_p->UV, 1);
-	_p->insert = jl_get_function(_p->BAM, "insert!");
-	_p->or_polygon = jl_get_function(_p->BAM, "or_polygon!");
-	_p->sub_polygon = jl_get_function(_p->BAM, "sub_polygon!");
-	_p->and_polygon = jl_get_function(_p->BAM, "and_polygon!");
-	_p->boolean_polygons = jl_get_function(_p->BAM, "boolean_polygons");
-	if (jl_exception_occurred())
-		printf("%s \n", jl_typeof_str(jl_exception_occurred()));
-}
+{}
 
 BAM::BAM(const BAM& other)
 	: _p(other._p)

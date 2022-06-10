@@ -8,12 +8,12 @@
 #include <memory>
 #include <utility>
 
-class DECL_SHARE BAM {
+class BAM_CPP BAM {
 public:
 	using Coord = int32_t;
 	using UV = std::array<Coord, 2>;
 	using Polygon = std::vector<UV>;
-	class DECL_SHARE Mesh2D {
+	class BAM_CPP Mesh2D {
 		struct Private;
 		std::shared_ptr<Private> _p;
 	public:
